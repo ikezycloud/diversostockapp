@@ -1,0 +1,85 @@
+{% load static %}
+
+<head>
+  <link rel="stylesheet" href="{% static 'css/styles.css' ? now 'U' %}" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+{% block content %}
+
+<body>
+    {% block nav %}{% include 'navbar.html' %}{% endblock nav %}
+    {% if messages %}
+      {% for message in messages %}
+          <div class="text-center alert alert-danger">
+              {{ message|safe }}
+          </div>
+      {% endfor %}
+    {% endif %}
+    <section class="shares-section">
+        <h1>User Dashboard</h1>
+        <h3>List Of Shares</h3><br>
+        <hr>
+        <div class="shares-container">
+            {% for key, value in orders.items %}
+            <div class="share-card">
+                <img style="width: inherit;" src="{{value.logo}}" alt="Apple Inc.">
+                <h3>{{key}}</h3>
+                <ul>
+                  <li><span class="{{key}}" id="{{value.quantity}}" data-id="{{value.quantity}}">Shares Available: </span>{{value.quantity}}</li>
+                  <li><span>Price:</span> ${{value.price|floatformat:"2g"}}</li>
+                  <li><span>High Price:</span> ${{value.high|floatformat:"2g"}}</li>
+                  <li><span>Low Price:</span> ${{value.low|floatformat:"2g"}}</li>
+                  {% if value.change > 0.0 %}
+                    <li style="color: green;"><span>Change:</span> ${{value.change|floatformat:"2g"}}</li>
+                  {% else %}
+                    <li style="color: red;"><span>Change:</span> ${{value.change|floatformat:"2g"}}</li>
+                  {% endif %}
+                </ul>
+                <a id="addShare" type="button" data-id="{{key}}" href="#" class="buy-button" data-toggle="modal" data-target="#exampleModal">Sell Now</a>
+              </div>
+            {% endfor %}
+        </div>
+    </section>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Number Of Shares</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{% url 'account:selling' %}" method="post">
+              {% csrf_token %}
+              <div class="modal-body">
+                <label for="quantity">Enter Number Of Shares: </label>
+                <input type="number" id="quantity" name="quantity" value="1">
+              </div>
+              <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                <input type="hidden" id="ticker" name="ticker" value="">
+                <button class="btn btn-primary" type="submit">Confirm</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript">
+        //triggered when modal is about to be shown
+        $(document).on("click", "#addShare", function () {
+            var shareTicker = $(this).data('id');
+            $(".modal-footer #ticker").val( shareTicker );
+            let quantity = document.getElementsByClassName(shareTicker)[0].getAttribute("id")
+            console.log(quantity)
+            $(".modal-footer #ticker").val( shareTicker );
+            $("input").attr({
+                "max" : quantity,        // substitute your own
+                "min" : 1          // values (or variables) here
+            });
+        });
+    </script>
+    {% block footer %}{% include 'footer.html' %}{% endblock footer %}
+</body>
+
+{% endblock content %}

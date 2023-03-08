@@ -1,0 +1,40 @@
+{% load static %}
+
+{% block content %}
+<body class="container mt-5">
+    {% block nav %}{% include 'navbar.html' %}{% endblock nav %}
+    <div class="content-section col-lg-12 col-md-12 col-sm-12 tutorial-style" style="min-height:65vh;">
+        <legend class="border-bottom mb-4">Profile Information:</legend>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+                <div class="media">
+                    <div class="media-body">
+                        <h2 class="account-heading">Hi, {{ form.instance.username }}</h2>
+                        <p class="text-secondary">{{ form.instance.email }}</p>
+                        <!-- <p class="text-secondary">{{ form.instance.profile.balance }}</p> -->
+                    </div>
+                </div>
+    
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Edit Profile Information</legend>
+                    <div class="form-row">
+                        <!-- <div class="form-group col-md-6 mb-0">
+                            {{ form.username }}
+                        </div> -->
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <a href="/">Change password?</a>
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-info" type="submit" href="{% url 'account:profile' username=user.username  %}">Update</button>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+    {% block footer %}{% include 'footer.html' %}{% endblock footer %}
+</body>
+
+{% endblock content %}

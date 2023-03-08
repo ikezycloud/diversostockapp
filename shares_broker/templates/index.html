@@ -1,0 +1,68 @@
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Share Broker Hero Section</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' ? now 'U' %}" type="text/css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+</head>
+<body>
+  {% block nav %}{% include './navbar.html' %}{% endblock nav %}
+	<section class="hero">
+		<h1>Invest in the Future with Our Share Brokers</h1>
+		<p>Our experienced share brokers are here to help you make the most of your investments. With a wealth of knowledge and expertise, we'll help you navigate the stock market with confidence and achieve your financial goals.</p>
+		<a href="#" class="button">Get Started Today</a>
+	</section>
+
+    <section class="shares-section">
+        <h2>List of Shares</h2>
+        <div class="shares-container">
+          <div class="share-card">
+            <img src="https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202302150915" alt="Apple Inc.">
+            <h3>Apple Inc.</h3>
+            <ul>
+              <li><span>Available Shares:</span> 100</li>
+              <li><span>Price:</span> $120.50</li>
+              <li><span>High Price:</span> $128.23</li>
+              <li><span>Low Price:</span> $117.42</li>
+              <li><span>Change:</span> 2.36%</li>
+            </ul>
+            <a href="#" class="buy-button">Buy Now</a>
+          </div>
+          <div class="shares-container">
+            <div class="share-card">
+              <img src="https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202302150915" alt="Apple Inc.">
+              <h3>Apple Inc.</h3>
+              <ul>
+                <li><span>Available Shares:</span> 100</li>
+                <li><span>Price:</span> $120.50</li>
+                <li><span>High Price:</span> $128.23</li>
+                <li><span>Low Price:</span> $117.42</li>
+                <li><span>Change:</span> 2.36%</li>
+              </ul>
+              <a href="#" class="buy-button">Buy Now</a>
+            </div>
+            <div class="shares-container">
+                <div class="share-card">
+                  <img src="https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202302150915" alt="Apple Inc.">
+                  <h3>Apple Inc.</h3>
+                  <ul>
+                    <li><span>Available Shares:</span> 100</li>
+                    <li><span>Price:</span> $120.50</li>
+                    <li><span>High Price:</span> $128.23</li>
+                    <li><span>Low Price:</span> $117.42</li>
+                    <li><span>Change:</span> 2.36%</li>
+                  </ul>
+                  <a href="#" class="buy-button">Buy Now</a>
+                </div>
+          <!-- Add more share cards here as needed -->
+        </div>
+      </section>
+      {% block footer %}{% include './footer.html' %}{% endblock footer %}
+</body>
+</html>
+{% endblock %}

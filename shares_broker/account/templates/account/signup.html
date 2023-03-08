@@ -1,0 +1,16 @@
+{% extends "./layout/base.html" %}
+{% load static %}
+
+{% block content %}
+    <p class="h4 mb-4 text-center">Sign Up</p>
+    <form action="/account/signup/" method="post" class="border border-solid p-5 ">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <br>
+        <input type="submit" value="Sign Up" class="btn btn-success form-control">
+        <div class="text-center">
+            <br>
+            <p>Already have an account? <a class="btn btn-success" href="{% url 'account:login' %}">Sign In</a>.</p>
+        </div>
+    </form>
+{% endblock content %}

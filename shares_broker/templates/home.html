@@ -1,0 +1,98 @@
+{% load static %}
+
+{% block content %}
+    <head>
+      <title>Share Broker Hero Section</title>
+      <link rel="stylesheet" href="{% static 'css/styles.css' ? now 'U' %}" type="text/css">
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>
+      {% block nav %}{% include './navbar.html' %}{% endblock nav %}
+      <section class="hero">
+        <h1>Invest in the Future with Our Share Brokers</h1>
+        <p>Our experienced share brokers are here to help you make the most of your investments. With a wealth of knowledge and expertise, we'll help you navigate the stock market with confidence and achieve your financial goals.</p>
+        <a href="#" class="button">Get Started Today</a>
+      </section>
+    
+      {% if messages %}
+          {% for message in messages %}
+              <div class="text-center alert alert-{{ message.tags }}">
+                  {{ message|safe }}
+              </div>
+          {% endfor %}
+      {% endif %}
+        <section class="shares-section">
+          <h2>List of Shares</h2>
+          <hr>
+          <div class="shares-container">
+            {% for key, value in stocks.items %}
+              <div class="share-card">
+                <img style="width: inherit;" src="{{value.logo}}" alt="Apple Inc.">
+                <h3>{{key}} - {{value.name}}</h3>
+                <ul>
+                  <li><span class="{{key}}" id="{{value.no_of_shares}}" data-id="{{value.no_of_shares}}">Shares Available: </span>{{value.no_of_shares}}</li>
+                  <li><span>Price:</span> ${{value.c|floatformat:"2g"}}</li>
+                  <li><span>High Price:</span> ${{value.h|floatformat:"2g"}}</li>
+                  <li><span>Low Price:</span> ${{value.l|floatformat:"2g"}}</li>
+                  {% if value.d > 0.0 %}
+                    <li style="color: green;"><span>Change:</span> ${{value.d|floatformat:"2g"}}</li>
+                  {% else %}
+                    <li style="color: red;"><span>Change:</span> ${{value.d|floatformat:"2g"}}</li>
+                  {% endif %}
+                </ul>
+                <a id="addShare" type="button" data-id="{{key}}" href="#" class="buy-button" data-toggle="modal" data-target="#exampleModal">Buy Now</a>
+              </div>
+              {% endfor %}
+          </div>
+        </section>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Number Of Shares</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <a aria-hidden="true">&times;</a>
+                    </button>
+                  </div>
+                  <form action="{% url 'account:buying' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                      <label for="quantity">Enter Number Of Shares: </label>
+                      <input type="number" id="quantity" name="quantity" value="1" required>
+                    </div>
+                    <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                      <input type="hidden" id="ticker" name="ticker" value="">
+                      <button class="btn btn-primary" type="submit">Confirm</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="container text-left">
+              <h3>Latest Updates</h3>
+              <hr>
+              {% for value in extras %}
+              <h4>{{ value.headline }} ({{ value.datetime }})</h4>
+              <span>{{ value.summary }}</span>
+              <a href="{{value.url}}">Click here to read news</a>
+              <hr>
+              {% endfor %}
+            </div>
+            <script type="text/javascript">
+              //triggered when modal is about to be shown
+              $(document).on("click", "#addShare", function () {
+                  var shareTicker = $(this).data('id');
+                  let quantity = document.getElementsByClassName(shareTicker)[0].getAttribute("id")
+                  console.log(quantity)
+                  $(".modal-footer #ticker").val( shareTicker );
+                  $("input").attr({
+                    "max" : quantity,        // substitute your own
+                    "min" : 1          // values (or variables) here
+                  });
+              });
+          </script>
+          {% block footer %}{% include './footer.html' %}{% endblock footer %}
+    </body>
+{% endblock %}

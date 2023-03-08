@@ -1,0 +1,81 @@
+{% load static %}
+
+<head>
+    <!-- {% block title %}Shares Brokering System{% endblock %} -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <link rel="stylesheet" href="{% static './shares_broker/home.css' %}"> -->
+</head>
+
+{% block content %}
+    
+        <nav class="navbar navbar-inverse" style="margin-bottom: 0px; border-radius: 0px">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="/">Logo</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">About</a></li>
+                <li><a id="exchanger"></a></li>
+                </ul>
+                {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="search nav-item nav-link">
+                            <form style="margin-top: 10px" name="search_form" action="{% url 'search' %}" method="POST">
+                              {% csrf_token %}
+                              <div class="input-group" style="display: flex;">
+                                <!-- <label for="ticker">Enter Company Name : </label> -->
+                                <input type="search" class="ticker form-control rounded" aria-label="Search" aria-describedby="search-addon" name="ticker" placeholder="search by company name.." required>
+                                <button class="btn btn-primary" type="submit">Search</button>
+                              </div>
+                            </form>
+                        </li>
+                        <li>
+                            <a class="nav-item nav-link" href="{% url 'account:dashboard' user.username %}">
+                                Dashboard <i class="fas fa-user"></i>
+                            </a>
+                        </li>
+                        <li> <a style="color: white;">Balance: £{{ user.profile.balance|floatformat:"2g" }}</a> </li>
+                        <li>
+                            <a class="nav-item nav-link" href="{% url 'account:profile' user.username %}">
+                                {{user.username|upper}} <i class="fas fa-user"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <form action="{% url 'account:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-sm" type="submit"> Log Out</button>
+                            </form>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'account:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+            </div>
+        </nav>
+        <script>
+            async function showAlert() {
+                fetch("https://api.exchangerate.host/latest?base=USD")
+                .then(response => response.text())
+                .then(result => 
+                document.getElementById("exchanger").innerHTML="Current Rate: $1 = £" + JSON.parse(result)['rates']['GBP'].toFixed(2)
+                )
+                .catch(error => console.log('error', error));
+            }
+            showAlert()
+        </script>
+    
+{% endblock %}
