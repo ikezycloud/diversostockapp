@@ -2,7 +2,7 @@
 
 {% block content %}
     <head>
-      <title>Share Broker Hero Section</title>
+      <title>Ikeoluwa Brokers Ltd</title>
       <link rel="stylesheet" href="{% static 'css/styles.css' ? now 'U' %}" type="text/css">
         <!-- <link rel="stylesheet" href="styles.css"> -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -74,10 +74,10 @@
               <h3>Latest Updates</h3>
               <hr>
               {% for value in extras %}
-              <h4>{{ value.headline }} ({{ value.datetime }})</h4>
-              <span>{{ value.summary }}</span>
-              <a href="{{value.url}}">Click here to read news</a>
-              <hr>
+                <h4>{{ value.headline }} ({{ value.datetime }})</h4>
+                <span>{{ value.summary }}</span>
+                <a href="{{value.url}}">Click here to read news</a>
+                <hr>
               {% endfor %}
             </div>
             <script type="text/javascript">
@@ -88,8 +88,8 @@
                   console.log(quantity)
                   $(".modal-footer #ticker").val( shareTicker );
                   $("input").attr({
-                    "max" : quantity,        // substitute your own
-                    "min" : 1          // values (or variables) here
+                    "max" : quantity,      
+                    "min" : 1          
                   });
               });
           </script>

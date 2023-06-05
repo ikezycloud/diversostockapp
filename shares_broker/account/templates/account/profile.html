@@ -1,9 +1,13 @@
 {% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/styles.css' ? now 'U' %}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
 {% block content %}
-<body class="container mt-5">
+<body>
     {% block nav %}{% include 'navbar.html' %}{% endblock nav %}
-    <div class="content-section col-lg-12 col-md-12 col-sm-12 tutorial-style" style="min-height:65vh;">
+    <div class="" style="min-height:65vh;">
         <legend class="border-bottom mb-4">Profile Information:</legend>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -12,21 +16,17 @@
                     <div class="media-body">
                         <h2 class="account-heading">Hi, {{ form.instance.username }}</h2>
                         <p class="text-secondary">{{ form.instance.email }}</p>
-                        <!-- <p class="text-secondary">{{ form.instance.profile.balance }}</p> -->
                     </div>
                 </div>
     
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Edit Profile Information</legend>
                     <div class="form-row">
-                        <!-- <div class="form-group col-md-6 mb-0">
-                            {{ form.username }}
-                        </div> -->
                         <div class="form-group col-md-6 mb-0">
                             {{ form.email }}
                         </div>
                     </div>
-                    <a href="/">Change password?</a>
+                    <a href="{% url 'account:reset_pwd' %}">Change password?</a>
                 </fieldset>
                 <div class="form-group">
                     <button class="btn btn-info" type="submit" href="{% url 'account:profile' username=user.username  %}">Update</button>

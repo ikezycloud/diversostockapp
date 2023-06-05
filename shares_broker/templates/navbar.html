@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>                        
                 </button>
-                <a class="navbar-brand" href="/">Logo</a>
+                <a class="navbar-brand" href="/">Diverso Brokers Ltd</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
@@ -45,7 +45,7 @@
                                 Dashboard <i class="fas fa-user"></i>
                             </a>
                         </li>
-                        <li> <a style="color: white;">Balance: £{{ user.profile.balance|floatformat:"2g" }}</a> </li>
+                        <li> <a style="color: white;">Balance: {{user.profile.ucurrency}} {{ user.profile.balance|floatformat:"2g" }}</a> </li>
                         <li>
                             <a class="nav-item nav-link" href="{% url 'account:profile' user.username %}">
                                 {{user.username|upper}} <i class="fas fa-user"></i>
@@ -71,7 +71,7 @@
                 fetch("https://api.exchangerate.host/latest?base=USD")
                 .then(response => response.text())
                 .then(result => 
-                document.getElementById("exchanger").innerHTML="Current Rate: $1 = £" + JSON.parse(result)['rates']['GBP'].toFixed(2)
+                document.getElementById("exchanger").innerHTML="Current Exchange Rate: USD 1 = {{user.profile.ucurrency}} " + JSON.parse(result)['rates']['{{user.profile.ucurrency}}'].toFixed(2)
                 )
                 .catch(error => console.log('error', error));
             }

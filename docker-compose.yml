@@ -1,0 +1,11 @@
+version: "3"
+services:
+  diversostockapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: diversostockapp
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/diverso-stock-app

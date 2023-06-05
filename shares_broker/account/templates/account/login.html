@@ -13,9 +13,6 @@
     <form action="{% url 'account:login' %}" method="post" class="border border-solid p-5">
         {% csrf_token %}
         {{ form.as_div }}
-        <div>
-            <a href="#">Forgot password?</a>
-        </div>
         <br>
         <input type="submit" value="Log In" class="btn btn-success form-control">
         <div class="text-center">

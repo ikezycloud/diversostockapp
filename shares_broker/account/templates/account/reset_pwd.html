@@ -1,0 +1,66 @@
+{% extends "./layout/base.html" %}
+{% load static %}
+
+<head>
+    <style>
+        .pass_show{position: relative} 
+        .pass_show .ptxt { 
+            position: absolute; 
+            top: 50%; 
+            right: 10px; 
+            z-index: 1; 
+            color: #f36c01; 
+            margin-top: -10px; 
+            cursor: pointer; 
+            transition: .3s ease all; 
+        } 
+        .pass_show .ptxt:hover{color: #333333;} 
+    </style>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="text-center alert alert-{{ message.tags }}">
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <form action="{% url 'account:reset_pwd' %}" method="post">
+                    {% csrf_token %}
+                    <label>Current Password</label>
+                    <div class="form-group pass_show"> 
+                        <input name="old_pwd" type="password" class="form-control" placeholder="Current Password" required> 
+                    </div> 
+                    <label>New Password</label>
+                    <div class="form-group pass_show"> 
+                        <input name="new_pwd" type="password" class="form-control" placeholder="New Password" required> 
+                    </div> 
+                    <label>Confirm Password</label>
+                    <div class="form-group pass_show"> 
+                        <input name="renew_pwd" type="password" class="form-control" placeholder="Confirm Password" required> 
+                    </div>
+                    <input type="submit" value="Update Password" class="btn btn-success form-control">
+                </form>
+                <br>
+                <a href="{% url 'home' %}" class="btn btn-primary">Go To Home</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('.pass_show').append('<span class="ptxt">Show</span>');  
+        });
+        $(document).on('click','.pass_show .ptxt', function(){ 
+            $(this).text($(this).text() == "Show" ? "Hide" : "Show"); 
+            $(this).prev().attr('type', function(index, attr){return attr == 'password' ? 'text' : 'password'; }); 
+        });  
+    </script>
+{% endblock content %}

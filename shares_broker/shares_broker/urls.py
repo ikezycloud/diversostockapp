@@ -16,14 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from account import views
+from rest_framework import routers
 
 from . import views
 
-urlpatterns = [
+router = routers.DefaultRouter()
+router.register(r'api/shares', views.SharesView, basename='shares')
+router.register(r'api/orders', views.OrdersView, basename='orders')
+
+urlpatterns = router.urls
+
+
+urlpatterns += [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('search/', views.search, name='search'),
     path('account/', include('account.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 handler404 = 'shares_broker.views.handler404'
