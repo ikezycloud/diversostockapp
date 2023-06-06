@@ -80,7 +80,8 @@ STEP 9. Access the web application from my local machine browser by inputing the
   ![image](https://github.com/ikezycloud/diversostockapp/assets/108793471/8da62d96-a57d-4890-9a28-043040d49378)
 
 STEP 10. Monitoring and troubeshooting!!
-  I had my friends all create accounts on my web application and make transactions by buying and selling stocks while I monitored the logs of the EC2 instance.
+  
+ I had my friends all create accounts on my web application and make transactions by buying and selling stocks while I monitored the logs of the EC2 instance.
   The results of those logs and my troubleshooting on the issues that came out whilst the application was running live will be provided soon!!
   
   
