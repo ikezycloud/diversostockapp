@@ -3,14 +3,14 @@ pipeline {
 
   triggers {
     // Trigger the pipeline on new commits or pushes to the specified branch
-    changeset([
+    changeset[
       [$class: 'GitSCMTrigger',
        triggerOnSCMUpdates: true,
        branches: [[
          $class: 'BranchSpec',
          branch: 'refs/heads/main'
        ]]
-      ])
+      ]
   }
 
 
