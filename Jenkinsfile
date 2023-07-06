@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   triggers {
-    scm('*/5 * * * *') // Trigger the pipeline every 5 minutes
+    pollSCM('*/5 * * * *') // Trigger the pipeline every 5 minutes
   }
 
   stages {
