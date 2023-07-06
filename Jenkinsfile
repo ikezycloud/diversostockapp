@@ -2,16 +2,16 @@ pipeline {
   agent any
 
   triggers {
-    // Trigger the pipeline on new commits or pushes to the specified branch
-    changeset[
-      [$class: 'GitSCMTrigger',
-       triggerOnSCMUpdates: true,
-       branches: [[
-         $class: 'BranchSpec',
-         branch: 'refs/heads/main'
-       ]]
-      ]
+    scm('*/5 * * * *') // Trigger the pipeline every 5 minutes
   }
+
+  stages {
+    stage('Checkout SCM') {
+      steps {
+        // Checkout the source code from SCM repository
+        checkout scm
+      }
+    }
 
 
     //stage('Build Docker Image') {
