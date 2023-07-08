@@ -33,7 +33,7 @@ pipeline {
       steps {
         // Push the Docker image to a Docker registry
         withDockerRegistry(credentialsId: 'docker-hub-credentials', url: 'https://registry.hub.docker.com') {
-          sh 'docker push diversostockapp'
+          sh 'docker push stockbrokerapp_diversostockapp'
         }
       }
     }
