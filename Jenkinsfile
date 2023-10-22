@@ -8,20 +8,24 @@ pipeline {
   stages {
     stage('Checkout SCM') {
       steps {
-        // Checkout the source code from SCM repository
         checkout scm
       }
     }
 
     stage('Backup Database') {
       steps {
-        sh 'docker-compose down' // Ensure containers are stopped
-        sh 'docker-compose up -d' // Start containers
-        sh 'docker cp diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3 db_backup.sqlite3'
-        sh 'docker-compose down' // Stop containers
+        script {
+          def isContainerRunning = sh(script: 'docker ps -q --filter "name=diversostockapp" | wc -l', returnStatus: true).trim()
+          if (isContainerRunning == '0') {
+            echo 'The container is not running. Using the last backup database.'
+          } else {
+            echo 'The container is running. Backing up the database.'
+            sh 'docker cp diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3 db_backup.sqlite3'
+          }
+          sh 'docker-compose down' // Stop containers
+        }
       }
     }
-
 
     stage('Deploy to Test Environment') {
       steps {
@@ -32,7 +36,15 @@ pipeline {
 
     stage('Restore Database') {
       steps {
-        sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3'
+        script {
+          def isContainerRunning = sh(script: 'docker ps -q --filter "name=diversostockapp" | wc -l', returnStatus: true).trim()
+          if (isContainerRunning == '0') {
+            echo 'The container is not running. Restoring the last backup database.'
+            sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3'
+          } else {
+            echo 'The container is running. Skipping database restoration.'
+          }
+        }
       }
     }
 
