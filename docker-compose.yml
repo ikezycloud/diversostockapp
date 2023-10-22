@@ -8,4 +8,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - db_volumes:/diverso-stock-app/shares_broker/db
       - .:/diverso-stock-app
+
+volumes:
+  db_volumes:
