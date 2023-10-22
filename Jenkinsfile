@@ -13,6 +13,13 @@ pipeline {
       }
     }
 
+    stage('Backup Database'){
+      steps {
+        sh 'docker-compose down'
+        sh 'docker cp diversostockapp:/diverso-stock-app/shares_broker/db/db.sqlite3 db_backup.sqlite3'
+      }
+    }
+
 
     stage('Deploy to Test Environment') {
       steps {
@@ -21,14 +28,16 @@ pipeline {
       }
     }
 
-    //stage('Push Docker Image') {
-      //steps {
-        // Push the Docker image to a Docker registry
-        //withDockerRegistry(credentialsId: 'docker-hub-credentials', url: 'https://registry.hub.docker.com') {
-          //sh 'docker tag stockbrokerapp_diversostockapp ikezycloud/diversostockapp:latest'
-          //sh 'docker push ikezycloud/diversostockapp:latest'
-        //}
-      //}
-    //}
+    stage('Restore Database') {
+      steps {
+        sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db/db.sqlite3'
+      }
+    }
+
+    stage('Clean Up') {
+      steps {
+        sh 'rm db_backup.sqlite3'
+      }
+    }
   }
 }
