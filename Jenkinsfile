@@ -39,10 +39,10 @@ pipeline {
         script {
           def isContainerRunning = sh(script: 'sudo docker ps -q --filter "name=diversostockapp"', returnStatus: true)
           if (isContainerRunning == 0) {
-            echo 'The container is not running. Restoring the last backup database.'
-            sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3'
+            echo 'The container is not running. Skipping database restoration.'
           } else {
-            echo 'The container is running. Skipping database restoration.'
+            echo 'The container is running. Restoring the last backup database.'
+            sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3'
           }
         }
       }
