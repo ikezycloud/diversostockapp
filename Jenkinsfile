@@ -15,8 +15,8 @@ pipeline {
     stage('Backup Database') {
       steps {
         script {
-          def isContainerRunning = sh(script: 'docker ps -q --filter "name=diversostockapp" | wc -l', returnStatus: true).trim()
-          if (isContainerRunning == '0') {
+          def isContainerRunning = sh(script: 'docker ps -q --filter "name=diversostockapp" | wc -l', returnStatus: true)
+          if (isContainerRunning == 0) {
             echo 'The container is not running. Using the last backup database.'
           } else {
             echo 'The container is running. Backing up the database.'
@@ -37,8 +37,8 @@ pipeline {
     stage('Restore Database') {
       steps {
         script {
-          def isContainerRunning = sh(script: 'docker ps -q --filter "name=diversostockapp" | wc -l', returnStatus: true).trim()
-          if (isContainerRunning == '0') {
+          def isContainerRunning = sh(script: 'docker ps -q --filter "name=diversostockapp" | wc -l', returnStatus: true)
+          if (isContainerRunning == 0) {
             echo 'The container is not running. Restoring the last backup database.'
             sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3'
           } else {
