@@ -17,7 +17,7 @@ pipeline {
       steps {
         sh 'docker-compose down' // Ensure containers are stopped
         sh 'docker-compose up -d' // Start containers
-        sh 'docker cp diversostockapp:/diverso-stock-app/shares_broker/db/db.sqlite3 db_backup.sqlite3'
+        sh 'docker cp diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3 db_backup.sqlite3'
         sh 'docker-compose down' // Stop containers
       }
     }
@@ -32,7 +32,7 @@ pipeline {
 
     stage('Restore Database') {
       steps {
-        sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db/db.sqlite3'
+        sh 'docker cp db_backup.sqlite3 diversostockapp:/diverso-stock-app/shares_broker/db.sqlite3'
       }
     }
 
